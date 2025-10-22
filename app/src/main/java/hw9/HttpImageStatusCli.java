@@ -3,20 +3,24 @@ package hw9;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import hw9.exception.NoCodeException;
+
 public class HttpImageStatusCli {
     public void askStatus() {
         System.out.println("Enter HTTP status code");
-        try (Scanner scan = new Scanner(System.in)) {
-            int input;
-            input = scan.nextInt();
+        Scanner scan = new Scanner(System.in);
+        int input = 0;
+        while (true) {
             try {
-
+                input = scan.nextInt();    
                 new HttpStatusImageDownloader().downloadStatusImage(input);
-            } catch (Exception e) {
-                System.out.println(String.format("There is not image for HTTP status %d", input));
+                break;
+            } catch (NoCodeException e) {
+                System.out.printf("There is not image for HTTP status %d%n", input);
+            } catch (InputMismatchException e) {
+                System.out.println("Please enter valid number");
+                scan.nextLine();
             }
-        } catch (InputMismatchException e) {
-            System.out.println("Please enter valid number");
         }
     }
 }

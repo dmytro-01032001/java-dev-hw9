@@ -10,11 +10,11 @@ import java.net.http.HttpResponse.BodyHandlers;
 
 public class HttpService {
     public HttpResponse<byte[]> get(String url) {
-        HttpRequest.Builder builder = HttpRequest.newBuilder()
+        HttpRequest request = HttpRequest.newBuilder()
             .uri(URI.create(url))
-            .GET();
-        HttpRequest request = builder.build();
-            
+            .GET()
+            .build();
+
         try (HttpClient client = HttpClient.newHttpClient()) {
             return client.send(request, BodyHandlers.ofByteArray());
         } catch (IOException | InterruptedException e) {
